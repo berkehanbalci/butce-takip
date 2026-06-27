@@ -1,5 +1,5 @@
 import json
-def harcamalari_yükle():
+def harcamalari_yukle():
     try:
         with open("harcamalar.json", "r", encoding="utf-8") as dosya:
             harcamalar = json.load(dosya)
@@ -17,13 +17,13 @@ def harcamalari_topla(harcamalar):
         tutar = float(tutar_metni)
         if tutar > 0:
             aciklama = input(f"Lutfen harcamanizin ne oldugunu giriniz: ")
-            kategori = input(f"Lutfen harcamaninizin kategorisini giriniz: ")
+            kategori = input(f"Lutfen harcamanizin kategorisini giriniz: ")
             yeniharcama = {"aciklama": aciklama, "tutar": tutar, "kategori": kategori}
             harcamalar.append(yeniharcama)
         else:
             print("Lütfen geçerli bir tutar giriniz")
     return harcamalar
-def rapor_göster(harcamalar, toplam):
+def rapor_goster(harcamalar, toplam):
     for eleman in harcamalar:
         print(f"{eleman['aciklama']}: {eleman['tutar']} TL ({eleman.get('kategori','belirsiz')})")
     print(f"Toplam tutar: {toplam}")
@@ -41,14 +41,14 @@ def kategori_raporu(harcamalar):
     print("=== KATEGORİ RAPORU ===")
     for kategori, kategori_tutari in kategori_toplamlari.items():
         print(f"{kategori}: {kategori_tutari} TL")    
-harcamalar = harcamalari_yükle()
+harcamalar = harcamalari_yukle()
 harcamalar = harcamalari_topla(harcamalar)          
 toplam = 0    
 for eleman in harcamalar:
     toplam = toplam + eleman["tutar"]
 if len(harcamalar) > 0:
     harcamalari_kaydet(harcamalar)
-    rapor_göster(harcamalar, toplam)
+    rapor_goster(harcamalar, toplam)
     kategori_raporu(harcamalar)
 else:
     print("Hiç harcama girilmedi")
