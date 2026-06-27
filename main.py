@@ -29,13 +29,26 @@ def rapor_göster(harcamalar, toplam):
     print(f"Toplam tutar: {toplam}")
     ortalama = toplam / len(harcamalar)
     print(f"Ortalama tutar: {ortalama}")
+def kategori_raporu(harcamalar):
+    kategori_toplamlari = {}
+    for eleman in harcamalar:
+        kategori = eleman.get("kategori", "belirsiz")
+        tutar = eleman["tutar"]
+        if kategori in kategori_toplamlari:
+            kategori_toplamlari[kategori] += tutar
+        else:
+            kategori_toplamlari[kategori] = tutar
+    print("=== KATEGORİ RAPORU ===")
+    for kategori, kategori_tutari in kategori_toplamlari.items():
+        print(f"{kategori}: {kategori_tutari} TL")    
 harcamalar = harcamalari_yükle()
 harcamalar = harcamalari_topla(harcamalar)          
-toplam = 0
+toplam = 0    
 for eleman in harcamalar:
     toplam = toplam + eleman["tutar"]
 if len(harcamalar) > 0:
     harcamalari_kaydet(harcamalar)
     rapor_göster(harcamalar, toplam)
+    kategori_raporu(harcamalar)
 else:
     print("Hiç harcama girilmedi")
