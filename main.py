@@ -1,6 +1,10 @@
-toplam = 0
+import json
 harcamalar = []
-
+try:
+    with open("harcamalar.json", "r", encoding="utf-8") as dosya:
+        harcamalar = json.load(dosya)
+except FileNotFoundError:
+    harcamalar = []  
 while True:   
     tutar_metni = input("Lutfen harcama giriniz (çikmak için q): ")
     if tutar_metni == "q":
@@ -10,10 +14,14 @@ while True:
         aciklama = input(f"Lutfen harcamanizin ne oldugunu giriniz: ")
         yeniharcama = {"aciklama": aciklama, "tutar": tutar}
         harcamalar.append(yeniharcama)
-        toplam = toplam + tutar
     else:
-        print("Lütfen geçerli bir tutar giriniz")    
+        print("Lütfen geçerli bir tutar giriniz") 
+toplam = 0
+for eleman in harcamalar:
+    toplam = toplam + eleman["tutar"]        
 if len(harcamalar) > 0:
+    with open("harcamalar.json", "w", encoding="utf-8") as dosya:
+        json.dump(harcamalar, dosya,  ensure_ascii=False)
     for eleman in harcamalar:
         print(f"{eleman['aciklama']}: {eleman['tutar']} TL")  
     print(f"Toplam tutar: {toplam}")    
